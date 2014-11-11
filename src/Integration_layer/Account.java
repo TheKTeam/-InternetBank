@@ -1,13 +1,23 @@
 package Integration_layer;
 
 import java.sql.Date;
-import javax.persistence.Entity;
+
+import javax.persistence.*;
 
 @Entity
-public class Account {
+//@EntityListeners({AuditingEntityListener.class})
+public class Account extends DomainObject {
+	@Basic
+	@Column
 	private long client;
+	@Basic
+	@Column
 	private Date dataCreate;
+	@Basic
+	@Column
 	private float money;
+	@Basic
+	@Column	
 	private AccountType type;
 	
 	public long getClient() {

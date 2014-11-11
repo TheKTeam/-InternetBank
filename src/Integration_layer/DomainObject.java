@@ -9,10 +9,10 @@ public class DomainObject {
 	private long id;
 
 	public long getId() {
-		return id;
+	return id;
 	}
 
 	public void setId(long id) {
-		this.id = id;
+	this.id = id;
 	}
 }

@@ -1,14 +1,21 @@
 package Integration_layer;
 
 import java.sql.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class Transaction {
+public class Transaction extends DomainObject {
+	@Column	
 	private long account;
+	@Column
 	private float commission;
+	@Column
 	private Date date;
+	@Column
 	private float money;
+	@Column
 	private TransactionsType type;
 	
 	public long getAccount() {

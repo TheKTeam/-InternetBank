@@ -1,10 +1,14 @@
 package Integration_layer;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class Money {
+//@EntityListeners({AuditingEntityListener.class})
+public class Money extends DomainObject {
+	@Column
 	private String name;
+	@Column
 	private float value;
 	
 	public String getName() {

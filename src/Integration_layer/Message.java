@@ -1,14 +1,20 @@
 package Integration_layer;
 
 import java.sql.Date;
-import javax.persistence.Entity;
+import javax.persistence.*;
 
 @Entity
-public class Message {
+//@EntityListeners({AuditingEntityListener.class})
+public class Message extends DomainObject {
+	@Column
 	private Date dataOfCreating;
+	@Column
 	private long resiver;
+	@Column
 	private long sender;
+	@Column
 	private String text;
+	@Column
 	private String topic;
 	
 	public Date getDataOfCreating() {

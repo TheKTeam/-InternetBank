@@ -1,15 +1,23 @@
 package Integration_layer;
 
 import java.sql.Date;
+
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 @Entity
-public class User {
+public class User extends DomainObject {
+	@Column
 	private String name;
+	@Column
 	private String password;
+	@Column
 	private String surname;
+	@Column
 	private UserType role;
+	@Column
 	private boolean sex;
+	@Column
 	private Date birthday;	
 	
 	public String getName() {
