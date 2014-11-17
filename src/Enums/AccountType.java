@@ -1,4 +1,4 @@
-package Integration_layer;
+package Enums;
 
 public enum AccountType {
 	CREDIT	("credit"),

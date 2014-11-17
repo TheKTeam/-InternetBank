@@ -1,4 +1,4 @@
-package Integration_layer;
+package Enums;
 
 public enum TransactionsType {
 	OPEN			("credit"),
