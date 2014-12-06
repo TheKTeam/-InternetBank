@@ -22,21 +22,23 @@ public class Transaction extends DomainObject {
     @ManyToOne
     @JoinColumn(name = "user_id2")
 	private User user2; 
-	@Column(name = "account")	
-	private Account account;
+	@Column(name = "account_id1")	
+	private Account account1;
+	@Column(name = "account_id2")	
+	private Account account2;	
 	@Column(name = "commission")
 	private float commission;
-	@Column(name = "data")
+	@Column(name = "date_of_creating")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-    private DateTime date;
+    private DateTime date_of_creating;
 	@Column(name = "money")
 	private float money;
 	@Column(name = "type")
 	private TransactionsType type;
 	
 	public Transaction(){
-		this.date = new DateTime();
+		this.date_of_creating = new DateTime();
 	}
 	
 	public float getCommission() {
@@ -77,22 +79,6 @@ public class Transaction extends DomainObject {
 
 	public void setUser2(User user2) {
 		this.user2 = user2;
-	}
-
-	public DateTime getDate() {
-		return date;
-	}
-
-	public void setDate(DateTime date) {
-		this.date = date;
-	}
-
-	public Account getAccount() {
-		return account;
-	}
-
-	public void setAccount(Account account) {
-		this.account = account;
 	}	
 	
     @Override
@@ -102,11 +88,20 @@ public class Transaction extends DomainObject {
                 .append("new", this.isNew())
                 .append("user1", this.user1.getId())
                 .append("user2", this.user2.getId())
-                .append("date", this.date)
+                .append("date", this.date_of_creating)
                 .append("type", this.type)
                 .append("commission", this.commission)
                 .append("money", this.money)
-                .append("account", this.account.getId())
+                .append("account1", this.account1.getId())
+                .append("account2", this.account2.getId())
                 .toString();
-    }	
+    }
+
+	public DateTime getDate_of_creating() {
+		return date_of_creating;
+	}
+
+	public void setDate_of_creating(DateTime date_of_creating) {
+		this.date_of_creating = date_of_creating;
+	}	
 }

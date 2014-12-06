@@ -1,22 +1,22 @@
 package Integration_layer.Entitys;
 
-import java.util.ArrayList;
+/*import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Set;*/
 
-import javax.persistence.CascadeType;
+//import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+//import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
+//import org.springframework.beans.support.MutableSortDefinition;
+//import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -47,12 +47,12 @@ public class User extends DomainObject {
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "yyyy/MM/dd")    
 	private DateTime birthday;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+/*    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
     private Set<Account> accounts;
     @OneToMany(mappedBy = "sender")
     private Set<Message> messageSent;
     @OneToMany(mappedBy = "resiver")
-    private Set<Message>  messegeReceiv;    
+    private Set<Message>  messegeReceiv; */   
 	    
     public User(){ 
     	this.birthday = new DateTime();
@@ -114,7 +114,7 @@ public class User extends DomainObject {
                 .append("role", this.role)
                 .toString();
     }	
-    protected void setAccountsInternal(Set<Account> accounts) {
+/*    protected void setAccountsInternal(Set<Account> accounts) {
         this.accounts = accounts;
     }
     protected Set<Account> getAccountsInternal() {
@@ -176,5 +176,5 @@ public class User extends DomainObject {
     public void addToMessegeReceiv(Message message) {
         getMessegeReceivInternal().add(message);
         message.setResiver(this);
-    }    
+    } */   
 }

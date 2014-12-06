@@ -1,19 +1,19 @@
 package Integration_layer.Entitys;
 
 
-import java.util.ArrayList;
+/* import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Set; */
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
-import org.springframework.beans.support.MutableSortDefinition;
-import org.springframework.beans.support.PropertyComparator;
+//import org.springframework.beans.support.MutableSortDefinition;
+//import org.springframework.beans.support.PropertyComparator;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -25,23 +25,23 @@ public class Account extends DomainObject {
     @ManyToOne
     @JoinColumn(name = "user_id")
 	private User user;    
-    @Column(name = "data_of_creating")
+    @Column(name = "date_of_creating")
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-    private DateTime dataOfCreating;
+    private DateTime dateOfCreating;
     @NotEmpty
     @Column(name = "money")	
     private float money;
 	@NotEmpty
     @Column(name = "type")
 	private AccountType type;
-    @OneToMany(mappedBy = "user1")
+/*    @OneToMany(mappedBy = "user1")
     private Set<Transaction> transactions1;
     @OneToMany(mappedBy = "user2")
-    private Set<Transaction> transactions2;    
+    private Set<Transaction> transactions2;  */  
 	
 	public Account(){
-		this.dataOfCreating = new DateTime();
+		this.dateOfCreating = new DateTime();
 	}
 	
 	public User getUser() {
@@ -68,12 +68,12 @@ public class Account extends DomainObject {
 		this.type = type;
 	}
 
-	public DateTime getDataOfCreating() {
-		return dataOfCreating;
+	public DateTime getDateOfCreating() {
+		return dateOfCreating;
 	}
 
-	public void setDataOfCreating(DateTime dataOfCreating) {
-		this.dataOfCreating = dataOfCreating;
+	public void setDateOfCreating(DateTime dateOfCreating) {
+		this.dateOfCreating = dateOfCreating;
 	}	
 	
     @Override
@@ -82,13 +82,13 @@ public class Account extends DomainObject {
                 .append("id", this.getId())
                 .append("new", this.isNew())
                 .append("money", this.money)
-                .append("data_of_creating", dataOfCreating)
+                .append("data_of_creating", dateOfCreating)
                 .append("type", this.type)
                 .append("city", this.user.getId())
                 .toString();
     }
 
-    protected void setTransactionsInternal1(Set<Transaction> transactions) {
+/*    protected void setTransactionsInternal1(Set<Transaction> transactions) {
         this.transactions1 = transactions;
     }
 
@@ -138,5 +138,5 @@ public class Account extends DomainObject {
     public void addTransaction2(Transaction transaction) {
         getTransactionsInternal2().add(transaction);
         transaction.setAccount(this);
-    }
+    } */
 }
