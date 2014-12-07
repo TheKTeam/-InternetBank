@@ -38,7 +38,8 @@ CREATE TABLE IF NOT EXISTS accounts (
   money FLOAT,
   type VARCHAR(32),
   date_of_creating DATE,    
-  user_id BIGINT UNSIGNED ,
+  user_id BIGINT UNSIGNED,
+  status BOOLEAN,
   FOREIGN KEY (user_id) REFERENCES users(id)
 ) engine=InnoDB;
 
