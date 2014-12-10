@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+   <h:head>
+   <h:outputStylesheet library="css" name="style_text.css"/>
+   <title>Создать счет</title>
+     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+   	<script>
+		  $(document).ready(function(){
+				$('#chat-trigger').click(function(){
+					$(this).next('#chat-content').slideToggle();
+					$(this).toggleClass('active');					
+					
+					if ($(this).hasClass('active')) $(this).find('span').html('&#x25B2;')
+						else $(this).find('span').html('&#x25BC;')
+					})
+		  });
+	</script>
+   
+   </h:head>
+<h:link href="style.css" rel="stylesheet" type="text/css"></h:link>
+<h:link href="style_text.css" rel="stylesheet" type="text/css"></h:link>
+
+
+<h:body>
+ <h:form>
+  <table width="100%" border="1" >
+    <tbody>
+      <tr>
+        <td width="85%" height="130" class="Лейб">К</td>
+        <td >
+       	<p><label for="textfield">Клиент:</label></p>
+		<p align="center"><h:inputText type="text" name="textfield" id="textfield" value="#{user.currentUser}" ></h:inputText></p>
+        <p align="right"><a href="start_page.xhtml"><h:commandButton value="Выход" actionListener="#{user.leave}" action="/start_page" ></h:commandButton></a>
+        </p></td>
+        
+      </tr>
+      <tr>
+        <td width="85%" height="785" align="left" valign="top">
+        <div style="position: relative; width: 90%; height: 720px; left: 5%; top: 2%;">
+          <p class="without_underline24px"><div class="without_underline20px" style="position:absolute; top:1%; left:5%;">Тип счета:</div><div class="without_underline20px" style="position:absolute; top:1%; left:60%;"> Количество счетов:</div></p>
+       	  <div style="position:absolute; top:8%; left:5%">
+       	  <h:selectOneMenu id="typeOfAcc" class="without_underline20px" value="#{tableData.typeOfAccountFromForm}">
+   	<f:selectItem itemValue="Кредитный" itemLabel="Кредитный" />
+   	<f:selectItem itemValue="Накопительный" itemLabel="Накопительный" />
+   	<f:selectItem itemValue="Сберегательный" itemLabel="Сберегательный" />
+</h:selectOneMenu>
+       	  
+ 
+          </div> 
+            <div style="position:absolute; top:8%; left:60%"><h:inputText id="countOfAccountUser" type="text" class="without_underline20px" style="position:relative; left:30%" autocomplete="off" size="3" value="#{tableData.countOfAccountUser}"></h:inputText></div>
+       	  
+       	  <div><a href="sozdatschet.xhtml">
+          <h:commandButton style="position:absolute; left:5%; top:25%; width:93%" type="button" class="without_underline20px" value="Создать счет" action="#{tableData.getaddNewAccount}"><f:ajax execute="typeOfAcc" render="out countOfAccountUser"/></h:commandButton></a></div>
+       	  <p>&nbsp;</p>
+       	  <div align="center" class="without_underline20px" style="position: absolute; top: 40%; left: 5%; width: 87%; height: 21px;">
+       	  <h:outputText id="out" value="#{tableData.messageAbCreatin}" />
+       	    <div align="center"  class="without_underline20px"></div>
+       	  </div>
+       	  <div class="without_underline20px" style="position: absolute; top: 43%; left: 5%; width: 87%; height: 21px;"><div align="center"></div></div>
+       	  <p align="center">&nbsp;</p>
+       	  <p align="center">&nbsp;</p>
+       	  <p align="center">&nbsp;</p>
+       	  <p align="center">&nbsp;</p>
+       	  <p align="center">&nbsp;</p>
+       	  <p align="center">&nbsp;</p>
+       	  <p><h:button style="position:absolute; left:5%; width:93%;top:65%;" class="without_underline20px" value="Посмотреть текущее состояние счетов" outcome="posmotrettekysheeessosoanieschetov"></h:button></p>
+        </div>
+      <div style="position: fixed; left: 30px; top: 250px;">
+     <nav>
+	<ulM>
+		<liChat id="chat">
+			<a  id="chat-trigger" href="#">
+				К о н с у л ь т а н т <span>&#9656;</span>
+			</a>
+			<div id="chat-content">
+				<form>
+					<fieldset style="position: relative; height: 225px;" id="inputs">
+						<h:inputTextarea readonly="true" value="#{user.messageOnChat}" style="resize: none;" rows="15" cols="60" id="MtextArea"></h:inputTextarea> 
+					</fieldset>
+					<fieldset id="actions">
+					<div >
+					<h:inputText id="message" value="#{user.message}" style="resize: none;" cols="60"></h:inputText>
+						<h:commandButton type="submit" id="submit" value="Отправить" >
+						 <f:ajax execute="message" render="MtextArea"/>
+						</h:commandButton>
+						</div>
+					</fieldset>
+
+				</form>
+			</div>                     
+		</liChat>
+	</ulM>
+</nav>
+</div>
+        </td>
+        <td valign="top" class="Rigth_panel">
+        <h3 class="Rigth_panel"> </h3>
+        <h3><a class="Rigth_panel" href="personal_cabinet.xhtml">Личный кабинет</a></h3>
+        <h3><a class="Rigth_panel" href="sendDeals.xhtml">Предложения и жалобы</a></h3>        
+        <h3><a class="Rigth_panel" href="uslugi.xhtml">Услуги</a></h3> 
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</h:form>
+</h:body>
+</html>

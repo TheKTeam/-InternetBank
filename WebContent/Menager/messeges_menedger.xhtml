@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html">
+   <h:head>
+   <h:outputStylesheet library="css" name="style_text.css"/>
+   <title>Сообщения</title>
+   
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+   
+   </h:head>
+<h:link href="style.css" rel="stylesheet" type="text/css"></h:link>
+<h:link href="style_text.css" rel="stylesheet" type="text/css"></h:link>
+
+
+<h:body>
+ <h:form>
+   <table width="100%" border="1" >
+    <tbody>
+      <tr>
+        <td width="85%" height="130" class="Лейб">К</td>
+        <td >
+       	<p><label for="textfield">Менеджер:</label></p>
+		<p align="center"><h:inputText type="text" name="textfield" id="textfield" value="#{user.currentUser}" ></h:inputText></p>
+        <p align="right"><a href="start_page.xhtml"><h:commandButton value="Выход" actionListener="#{user.leave}" action="start_page" ></h:commandButton></a>
+        </p></td>
+        
+      </tr>
+      <tr>
+        <td width="85%" height="785" align="left" valign="top">
+        <div style="position: relative; left: 5%; width: 70%; top: 5%%; height: 740px;">
+         <div style="height:130px;overflow-y:scroll;">
+          <h:dataTable style="align:center;"  width="100%" id="out"  border="1" value="#{tableData.accs}" var="accs"
+   styleClass="employeeTable"
+   headerClass="employeeTableHeader"
+   rowClasses="employeeTableOddRow,employeeTableEvenRow">
+   <f:facet name="caption">Счета</f:facet>
+      <h:column>          				
+      <f:facet name="header">Номер сообщения</f:facet>    				
+      #{accs.message_id}
+   </h:column>
+      <h:column>    				
+      <f:facet name="header">Тема</f:facet>    				
+      #{accs.topic}
+   </h:column>
+         <h:column>    				
+      <f:facet name="header">Текст</f:facet>    				
+      #{accs.text}
+   </h:column>
+   <h:column>    				
+      <f:facet name="header">Дата создания</f:facet>    				
+      #{accs.dateOfCreation}
+   </h:column>
+   <h:column>
+      <f:facet name="header">Отправитель</f:facet>
+      #{accs.sender_id}
+   </h:column>
+   <h:column>
+      <f:facet name="header">Получатель</f:facet>
+      #{accs.resiver_id}
+   </h:column>
+
+ </h:dataTable></div>
+          
+          <div style="position:relative; top:25% ; left:5%; width: 100%;">
+          
+          </div>
+          <div style="position:absolute; top:50%; right:10%">
+          </div>
+          
+          <div style="position:relative;width: 90%; top: 60%; left: 5%; ">
+          <h:button style="position:relative; width:90%;" class="without_underline20px" width="80%;" value="Поиск по сообщениям" outcome="find_users"></h:button></div>
+         <h:outputText />
+         </div>        
+                
+        </td>
+        <td valign="top" class="Rigth_panel">
+        <h3 class="Rigth_panel"> </h3>
+        <h3><a class="Rigth_panel" href="personal_cabinet_of_menedjer.xhtml">Личный кабинет</a></h3>,
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</h:form>
+</h:body>
+</html>

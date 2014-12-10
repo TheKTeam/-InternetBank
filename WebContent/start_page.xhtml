@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      
+	 >
+   <h:head>
+   <h:outputStylesheet library="css" name="style_text.css"/>
+   <title>Стартовая страница</title>
+   
+   <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script>
+		  $(document).ready(function(){
+				$('#login-trigger').click(function(){
+					$(this).next('#login-content').slideToggle();
+					$(this).toggleClass('active');					
+					
+					if ($(this).hasClass('active')) $(this).find('span').html('&#x25B2;')
+						else $(this).find('span').html('&#x25BC;')
+					})
+		  });
+		  
+		  
+		  setInterval("nextMessage()", 200); //update the chart every 200 ms               
+         
+        function updateMessages(xhr, status, args) {
+            if(!args.ok) return;
+            $('#chat').append('<div class="msg">[' +args.dateSent+ '] <strong>'+args.user+'</strong>: '+args.text+'</div>');
+        }
+        
+       
+        
+	</script>
+   
+   </h:head>
+<h:link href="style.css" rel="stylesheet" type="text/css"></h:link>
+<h:link href="style_text.css" rel="stylesheet" type="text/css"></h:link>
+
+
+<h:body>
+ <h:form>
+  <table width="100%" border="1" >
+    <tbody>
+      <tr>
+        <td width="85%" height="130" class="Лейб">К</td>
+        <td >
+       	<p><label for="textfield">Логин:</label>
+        <h:inputText type="text" name="textfield" id="name" value="#{user.name}" ></h:inputText></p>
+        <p><label for="password">Пароль:</label><h:inputSecret id="password" type="password" value="#{user.password}" ></h:inputSecret></p>
+		<p>
+    <div style="position: relative;">
+    <nav>
+	<ul>
+		
+		
+		
+		
+		<li id="signup">
+			<h:commandButton id="signup" value="Вход" action="Consultant/personal_cabinet_of_consultant"></h:commandButton>
+		</li>
+	</ul>
+</nav></div>
+</p></td>
+        
+      </tr>
+      <tr>
+        <td width="85%" height="785" align="left" valign="top"><blockquote>
+        
+       
+          <h2>&nbsp;</h2>
+          <h2>&nbsp;</h2>
+          <h1>Добро пожаловать в наш банк</h1>
+          <h2>Почему "К" банк:</h2>
+          <blockquote>
+            <h2>+Быстро;</h2>
+            <h2>+Выгодно;</h2>
+            <h2>+Удобно;</h2>
+            <h2>+Законно;</h2>
+            <h2>+Международно;</h2>
+          </blockquote>
+          
+          
+      
+         </blockquote>          </td>
+        <td valign="top" class="Rigth_panel"><h3> </h3>
+        <p></p>          </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+</h:form>
+</h:body>
+</html>

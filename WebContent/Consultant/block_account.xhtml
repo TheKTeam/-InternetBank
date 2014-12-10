@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      >
+   <h:head>
+   <h:outputStylesheet library="css" name="style_text.css"/>
+   <title>Личный кабинет</title>
+      
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+	<script>
+		  $(document).ready(function(){
+				$('#chat-trigger').click(function(){
+					$(this).next('#chat-content').slideToggle();
+					$(this).toggleClass('active');					
+					
+					if ($(this).hasClass('active')) $(this).find('span').html('&#x25B2;')
+						else $(this).find('span').html('&#x25BC;')
+					})
+		  });
+	</script>
+	   
+   </h:head>
+<h:link href="style.css" rel="stylesheet" type="text/css"></h:link>
+<h:link href="style_text.css" rel="stylesheet" type="text/css"></h:link>
+
+
+<h:body>
+ <h:form>
+  <table width="100%" border="1" >
+    <tbody>
+      <tr>
+        <td width="85%" height="130" class="Лейб">К</td>
+        <td >
+       	<p><label for="textfield">Консультант: </label></p>
+        <p align="center"><h:inputText type="text" name="textfield" id="textfield" value="#{user.currentUser}" ></h:inputText></p>
+        <p align="right"><a href="start_page.xhtml"><h:commandButton value="Выход" actionListener="#{user.leave}" action="/start_page" ></h:commandButton></a>
+        </p></td>
+        
+      </tr>
+      <tr>
+        <td width="85%" height="600" align="left" valign="top"><blockquote style="position: relative;">
+          
+          <div style="position: relative; width: 50%; height:190px;overflow-y:scroll;">
+          <h:dataTable style="align:center;" binding="#{table}" width="98%" id="out"  border="1" value="#{tableData.accs}" var="accs"
+   styleClass="employeeTable"
+   headerClass="employeeTableHeader"
+   rowClasses="employeeTableOddRow,employeeTableEvenRow">
+   <f:facet name="caption">Клиенты</f:facet>
+   <h:column>#{table.rowIndex + 1}</h:column>
+   <h:column>    				
+      <f:facet name="header">Фамилия</f:facet>    				
+      #{accs.typeOfAccount}
+   </h:column>
+   <h:column>
+      <f:facet name="header">Имя</f:facet>
+      #{accs.money}
+   </h:column>
+   <h:column>
+      <f:facet name="header">Отчество</f:facet>
+      #{accs.dateOfCreation}
+   </h:column>
+ </h:dataTable>
+      </div>    
+          <div style="position:absolute ; left: 50%; top:1%; width: 40%;" border="1">
+		<div width="100%" border="1"  >
+          <p align="center" >Номер клиента с таблицы: <h:inputText size="3"></h:inputText>
+          <h:button value="Просмотреть состояние счета клиента"></h:button></p>
+          </div>
+          <div><br />
+          <p align="center" class="main_text">Заблокировать счет</p>
+          <p align="center">Счет для блокировки: <h:inputText></h:inputText></p>
+          <p align="center"><h:button value="Заблокировать"></h:button></p>
+			</div>
+          </div>
+ <div style="position:absolute ; absolute;  top:90%; width: 50%; height:190px;overflow-y:scroll;">
+          <h:dataTable style="align:center;" binding="#{table2}" width="98%"  border="1" value="#{tableData.accs}" var="accs"
+   styleClass="employeeTable"
+   headerClass="employeeTableHeader"
+   rowClasses="employeeTableOddRow,employeeTableEvenRow">
+   <f:facet name="caption">Счета пользователя</f:facet>
+   <h:column>#{table2.rowIndex + 1}</h:column>
+   <h:column>    				
+      <f:facet name="header">Деньги</f:facet>    				
+      #{accs.typeOfAccount}
+   </h:column>
+   <h:column>
+      <f:facet name="header">Тип счета</f:facet>
+      #{accs.money}
+   </h:column>
+   <h:column>
+      <f:facet name="header">Дата создания</f:facet>
+      #{accs.dateOfCreation}
+   </h:column>
+ </h:dataTable>
+      </div> 
+ 
+ 
+     <div style="position: fixed; left: 30px; top: 250px;">
+     <nav>
+	<ulM>
+		<liChat id="chat">
+			<a  id="chat-trigger" href="#">
+				К о н с у л ь т а н т <span>&#9656;</span>
+			</a>
+			<div id="chat-content">
+				<form>
+					<fieldset style="position: relative; height: 225px;" id="inputs">
+						<h:inputTextarea readonly="true" value="#{user.messageOnChat}" style="resize: none;" rows="15" cols="60" id="MtextArea"></h:inputTextarea> 
+					</fieldset>
+					<fieldset id="actions">
+					<div >
+					<h:inputText id="message" value="#{user.message}" style="resize: none;" cols="60"></h:inputText>
+						<h:commandButton type="submit" id="submit" value="Отправить" >
+						 <f:ajax execute="message" render="MtextArea"/>
+						</h:commandButton>
+						</div>
+					</fieldset>
+
+				</form>
+			</div>                     
+		</liChat>
+	</ulM>
+</nav>
+</div>
+        </blockquote> 
+       </td>
+        <td valign="top" class="Rigth_panel">
+        <h3 class="Rigth_panel"></h3>
+        <h3><h:link class="Rigth_panel" outcome="/Consultant/show_uslugi"  value="Услуги" /></h3>
+        <h3><h:link class="Rigth_panel" outcome="/Consultant/personal_cabinet_of_consultant"  value="Личный кабинет" /></h3>          </td>
+      </tr>
+    </tbody>
+  </table>
+
+
+
+
+</h:form>
+</h:body>
+</html>

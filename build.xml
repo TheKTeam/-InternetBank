@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="HelloJSF.makejar" default="makewar" basedir="." xmlns:ivy="antlib:org.apache.ivy.ant">
+	<property name="src" location="src" />
+	<property name="build" location="build" />
+	<property name="lib" location="lib" />
+	<property name="dist" location="dist" />
+
+	<!-- Create directories -->
+	<target name="init">
+		<echo>Init</echo>
+		<mkdir dir="${build}" />
+		<mkdir dir="${dist}/WEB-INF/classes" />
+		<mkdir dir="${lib}" />
+	</target>
+
+	<property name="projectName" value="HelloJSF" />
+	<property environment="env" />
+	<property name="ivy.install.version" value="2.4.0-rc1" />
+	<property name="ivy.jar.dir" value="${src}/ivy" />
+	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
+
+	<target name="download-ivy" unless="skip.download">
+
+		<mkdir dir="${ivy.jar.dir}" />
+		<!-- download Ivy from web site so that it can be used even without any special installation -->
+		<echo message="download-ivy..." />
+
+		<get src="http://central.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true" />
+	</target>
+
+	<!-- ================================= 
+	          target: install-ivy         
+	         ================================= -->
+	<target name="install-ivy" description="--> install ivy">
+		<echo>install_ivy</echo>
+		<!-- try to load ivy here from local ivy dir, in case the user has not already dropped
+	    	      it into ant's lib dir (note that the latter copy will always take precedence).
+	    	      We will not fail as long as the ivy jar is in at least one of ant's lib dir or 
+	    	      the local lib dir. -->
+		<path id="ivy.lib.path">
+			<pathelement location="${ivy.jar.file}" />
+		</path>
+		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
+	</target>
+
+	<!-- Compile with javac -->
+	<target name="compile" depends="init, install-ivy">
+
+		<path id="lib.path.id">
+			<pathelement location="${build}" />
+			<pathelement location="WebContent" />
+		</path>
+		<echo>cache_modules</echo>
+		<!-- -->
+		<ivy:cachepath organisation="com.sun.faces" module="jsf-api" revision="2.2.4" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="com.sun.faces" module="jsf-impl" revision="2.2.4" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="javax.servlet" module="jstl" revision="1.2" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="com.sun.faces" module="mojarra-jsf-impl" revision="2.0.0-b04" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="com.sun.faces" module="mojarra-jsf-api" revision="2.0.0-b04" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="org.apache.tomcat" module="tomcat7-websocket" revision="7.0.57" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="javax.servlet" module="javax.servlet-api" revision="3.1.0" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="javax.servlet" module="servlet-api" revision="3.0-alpha-1" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="javax.servlet.jsp" module="javax.servlet.jsp-api" revision="2.3.1" pathid="lib.path.id" inline="true" />
+		<ivy:cachepath organisation="javax.faces" module="jsf-api" revision="2.1" pathid="lib.path.id" inline="true" />
+		<!-- -->
+
+		<echo>Compile</echo>
+		<javac srcdir="." destdir="${dist}/WEB-INF/classes" classpathref="lib.path.id" includeantruntime="false">
+		</javac>
+	</target>
+
+	<target name="makewar" description="Create a jar for the HelloJSF project" depends="compile">
+		<echo>makewar</echo>
+
+		<delete file="${dist}/${projectName}.war" />
+		<jar destfile="${dist}/${projectName}.war">
+			<fileset dir="${dist}" excludes="*.war" />
+			<fileset dir="./WebContent" />
+		</jar>
+	</target>
+
+	<target name="deploy-exploded" depends="makewar">
+		<echo>Deploying ${projectName} application to Tomcat...</echo>
+		<unwar src="${dist}/${projectName}.war" dest="${env.CATALINA_HOME}/webapps/${projectName}" />
+		<touch file="${env.CATALINA_HOME}/webapps/${projectName}/WEB-INF/web.xml" />
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="catalina start" />
+		</exec>
+	</target>
+
+
+	<!-- Clean directories -->
+	<target name="clean">
+		<echo>Clean</echo>
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg value="catalina stop" />
+		</exec>
+		<delete dir="${build}" />
+		<delete dir="${dist}" />
+		<delete dir="${env.CATALINA_HOME}/webapps/${projectName}/" />
+	</target>
+</project>
