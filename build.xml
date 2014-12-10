@@ -18,7 +18,7 @@
 	<property name="ivy.install.version" value="2.4.0-rc1" />
 	<property name="ivy.jar.dir" value="${src}/ivy" />
 	<property name="ivy.jar.file" value="${ivy.jar.dir}/ivy.jar" />
-
+	<property name="driver.jar.file" value="${ivy.jar.dir}/mysql-connector-java-5.1.25-bin.jar" />
 	<target name="download-ivy" unless="skip.download">
 
 		<mkdir dir="${ivy.jar.dir}" />
@@ -26,6 +26,7 @@
 		<echo message="download-ivy..." />
 
 		<get src="http://central.maven.org/maven2/org/apache/ivy/ivy/${ivy.install.version}/ivy-${ivy.install.version}.jar" dest="${ivy.jar.file}" usetimestamp="true" />
+
 	</target>
 
 	<!-- ================================= 
@@ -39,13 +40,13 @@
 	    	      the local lib dir. -->
 		<path id="ivy.lib.path">
 			<pathelement location="${ivy.jar.file}" />
+			<pathelement location="${rdiver.jar.file}" />
 		</path>
 		<taskdef resource="org/apache/ivy/ant/antlib.xml" uri="antlib:org.apache.ivy.ant" classpathref="ivy.lib.path" />
 	</target>
 
 	<!-- Compile with javac -->
 	<target name="compile" depends="init, install-ivy">
-
 		<path id="lib.path.id">
 			<pathelement location="${build}" />
 			<pathelement location="WebContent" />
@@ -62,8 +63,8 @@
 		<ivy:cachepath organisation="javax.servlet" module="servlet-api" revision="3.0-alpha-1" pathid="lib.path.id" inline="true" />
 		<ivy:cachepath organisation="javax.servlet.jsp" module="javax.servlet.jsp-api" revision="2.3.1" pathid="lib.path.id" inline="true" />
 		<ivy:cachepath organisation="javax.faces" module="jsf-api" revision="2.1" pathid="lib.path.id" inline="true" />
-		<!-- -->
 
+		<!-- -->
 		<echo>Compile</echo>
 		<javac srcdir="." destdir="${dist}/WEB-INF/classes" classpathref="lib.path.id" includeantruntime="false">
 		</javac>
@@ -89,7 +90,96 @@
 		</exec>
 	</target>
 
+	<target name="create_db">
+		<path id="driver.lib.path">
+			<pathelement location="${driver.jar.file}" />
+		</path>
+		<!--	<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306" 
+	userid="root" password="mysqlroot" src="data_init.sql"> -->
+		<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306" userid="root" password="mysqlroot">
+			<transaction>
+				CREATE DATABASE IF NOT EXISTS KBank;
+				GRANT ALL PRIVILEGES ON KBank.* TO root@'%' IDENTIFIED BY 'mysqlroot';
+				USE KBank;
+				CREATE TABLE IF NOT EXISTS currencies (
+				  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				  name VARCHAR(255),
+				  value FLOAT
+				) engine=InnoDB;
 
+				CREATE TABLE IF NOT EXISTS users (
+				  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				  email VARCHAR(30),
+				  firstname VARCHAR(30),
+				  lastname VARCHAR(30),
+				  surname VARCHAR(30),
+				  password VARCHAR(30),
+				  role VARCHAR(30),
+				  sex BOOLEAN,
+				  birthday DATE,
+				  INDEX(email)
+				) engine=InnoDB;
+
+				CREATE TABLE IF NOT EXISTS messages (
+				  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				  topic VARCHAR(32),
+				  text VARCHAR(1024),
+				  date_of_creating DATE,
+				  sender_id BIGINT UNSIGNED ,
+				  resiver_id BIGINT UNSIGNED ,
+				  FOREIGN KEY (sender_id) REFERENCES users(id),
+				  FOREIGN KEY (resiver_id) REFERENCES users(id)  
+				) engine=InnoDB;
+
+				CREATE TABLE IF NOT EXISTS accounts (
+				  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				  money FLOAT,
+				  type VARCHAR(32),
+				  date_of_creating DATE,    
+				  user_id BIGINT UNSIGNED,
+				  status BOOLEAN,
+				  FOREIGN KEY (user_id) REFERENCES users(id)
+				) engine=InnoDB;
+
+				CREATE TABLE IF NOT EXISTS transactions (
+				  id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+				  money FLOAT,
+				  commission FLOAT,
+				  type VARCHAR(32),
+				  date_of_creating DATE,
+				  account_id1 BIGINT UNSIGNED ,
+				  account_id2 BIGINT UNSIGNED ,  
+				  user_id1 BIGINT UNSIGNED ,
+				  user_id2 BIGINT UNSIGNED ,
+				  FOREIGN KEY (account_id1) REFERENCES accounts(id),
+				  FOREIGN KEY (account_id2) REFERENCES accounts(id),
+				  FOREIGN KEY (user_id1) REFERENCES users(id),
+				  FOREIGN KEY (user_id2) REFERENCES users(id)  
+				) engine=InnoDB;
+			</transaction>
+			<classpath>
+				<pathelement location="${driver.jar.file}" />
+			</classpath>
+		</sql>
+	</target>
+	
+	
+	
+	
+	<target name="drop_db">
+		<path id="driver.lib.path">
+			<pathelement location="${driver.jar.file}" />
+		</path>
+		<sql driver="com.mysql.jdbc.Driver" url="jdbc:mysql://localhost:3306" userid="root" password="mysqlroot">
+			<transaction>
+				DROP DATABASE `kbank`;
+			</transaction>
+			<classpath>
+				<pathelement location="${driver.jar.file}" />
+			</classpath>
+		</sql>
+	</target>	
+	
 	<!-- Clean directories -->
 	<target name="clean">
 		<echo>Clean</echo>
