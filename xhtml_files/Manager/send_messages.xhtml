@@ -79,9 +79,15 @@
       #{user1.role}
    </h:column>
 
-							</h:dataTable>
+							</h:dataTable><br />
+							Тема сообщения:
+							<h:inputText style="position:relative;  width:99%; left:0%; top:-10%;" id="subjectMess"
+									type="text" class="without_underline18px"
+									title="Номер счета для блокировки" 
+									value="#{sendEmailBean.subjectMess}"></h:inputText>
+							<br />
 							Текст сообщения:
-							<h:inputTextarea id="otziv" rows="4"
+							<h:inputTextarea id="message" rows="4"
 								style="resize: none; position:relative; width:99%; left:0%; top:-10%;"
 								value="#{sendEmailBean.message}">
 							</h:inputTextarea>
@@ -89,7 +95,7 @@
 							<h:commandButton style="position:relative; width:95%"
 								type="button" class="without_underline20px"
 								value="Отправить сообщение" action="#{sendEmailBean.sendEmails}">
-								 <f:ajax execute="" render="" />  
+								 <f:ajax execute="message subjectMess outListClients" render="" />  
 							</h:commandButton>
 						</div>
 					</td>
