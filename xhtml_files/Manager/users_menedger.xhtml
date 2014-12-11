@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<h:outputStylesheet library="css" name="style_text.css" />
+	<title>Пользователи</title>
+
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+</h:head>
+<h:link href="style.css" rel="stylesheet" type="text/css"></h:link>
+<h:link href="style_text.css" rel="stylesheet" type="text/css"></h:link>
+
+
+<h:body>
+	<h:form>
+		<table width="100%" border="1">
+			<tbody>
+				<tr>
+					<td width="85%" height="130" class="Лейб">К</td>
+					<td>
+						<p>
+							<label for="textfield">Менеджер:</label>
+						</p>
+
+
+					</td>
+
+				</tr>
+				<tr>
+					<td width="85%" height="785" align="left" valign="top">
+						<div
+							style="position: relative; left: 5%; width: 70%; top: 5%%; height: 740px;">
+							<div style="height: 130px; overflow-y: scroll;">
+								<h:dataTable style="align:center;" width="100%" id="outListClients"
+									border="1" value="#{usersBean.listUsers}" var="user1">
+									<f:facet name="caption">Счета</f:facet>
+									<h:column>
+	#{user1.id}						<f:facet name="header">ID пользователя</f:facet>
+									</h:column>
+									<h:column>
+										<f:facet name="header">ФИО</f:facet>    				
+      #{user1.name}
+   </h:column>
+									<h:column>
+										<f:facet name="header">Количество счетев</f:facet>    				
+      #{user1.numberOfAccount}
+   </h:column>
+									<h:column>
+										<f:facet name="header">Тип клиента</f:facet>
+      #{user1.role}
+   </h:column>
+
+								</h:dataTable>
+							</div>
+
+							<div style="position: relative; top: 25%; left: 5%; width: 100%;">
+								<h:commandButton style="position:relative;" type="button"
+									class="without_underline20px"
+									value="Заблокировать указаный счет"
+									action="#{usersBean.deleteUser}">
+									<f:ajax execute="idUser" render="outListClients" />
+								</h:commandButton>
+								<h:inputText style="position:relative;  " id="idUser"
+									type="text" class="without_underline20px"
+									title="Номер счета для блокировки" size="10"
+									value="#{usersBean.blockUser}"></h:inputText>
+							</div>
+							<h:outputText />
+						</div>
+
+					</td>
+					<td valign="top" class="Rigth_panel">
+						<h3 class="Rigth_panel"></h3>
+						<h3>
+							<a class="Rigth_panel" href="personal_cabinet_of_menedjer.xhtml">Личный
+								кабинет</a>
+						</h3>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+
+	</h:form>
+</h:body>
+</html>

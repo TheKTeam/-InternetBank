@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<h:outputStylesheet library="css" name="style_text.css" />
+	<title>Личный кабинет</title>
+
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+</h:head>
+<h:link href="style.css" rel="stylesheet" type="text/css"></h:link>
+<h:link href="style_text.css" rel="stylesheet" type="text/css"></h:link>
+
+
+<h:body>
+	<h:form>
+		<table width="100%" border="1">
+			<tbody>
+				<tr>
+					<td width="85%" height="130" class="Лейб">К</td>
+					<td>
+						<p>
+							<label for="textfield">Менеджер: </label>
+						</p>
+						<p align="center">
+							<h:inputText type="text" name="textfield" id="textfield"
+								value="#{user.currentUser}"></h:inputText>
+						</p>
+						<p align="right">
+							<a href="start_page.xhtml"><h:commandButton value="Выход"
+									actionListener="#{user.leave}" action="start_page"></h:commandButton></a>
+						</p>
+					</td>
+				</tr>
+				<tr>
+					<td width="85%" height="785" align="left" valign="top"><blockquote>
+							<h1 align="center">
+								<u>Личный кабинет</u>
+							</h1>
+							<p>
+								<h:link class="Uslygi_in_personal_cabinet"
+									outcome="/Menager/users_menedger"
+									value="Учетные записи пользователей" />
+							</p>
+							<p>
+								<h:link class="Uslygi_in_personal_cabinet"
+									outcome="/Menager/read_suggestion" value="Книга предложений" />
+							</p>
+							<p>
+								<h:link class="Uslygi_in_personal_cabinet"
+									outcome="/Menager/read_input_message"
+									value="Входящие сообщение" />
+							</p>
+							<p>
+								<h:link class="Uslygi_in_personal_cabinet"
+									outcome="/Menager/send_messages"
+									value="Рассылка сообщений" />
+							</p>
+						</blockquote></td>
+					<td valign="top" class="Rigth_panel">
+						<h3 class="Rigth_panel"></h3>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</h:form>
+</h:body>
+</html>

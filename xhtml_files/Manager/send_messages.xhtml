@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html">
+<h:head>
+	<h:outputStylesheet library="css" name="style_text.css" />
+	<title>Поиск по пользователям</title>
+	<script
+		src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+
+</h:head>
+<h:link href="style.css" rel="stylesheet" type="text/css"></h:link>
+<h:link href="style_text.css" rel="stylesheet" type="text/css"></h:link>
+
+<h:body>
+	<h:form id="formID">
+		<table id="tableID" width="100%" border="1">
+			<tbody>
+				<tr>
+					<td width="85%" height="130" class="Лейб">К</td>
+					<td>
+						<p>Менеджер:</p>
+						<p align="center">
+							<h:inputText type="text" name="textfield" id="textfield"
+								value="#{user.currentUser}"></h:inputText>
+						</p>
+						<p align="right">
+							<a href="start_page.xhtml"><h:commandButton value="Выход"
+									actionListener="#{user.leave}" action="start_page"></h:commandButton></a>
+						</p>
+					</td>
+
+				</tr>
+				<tr>
+					<td style="position: static;" width="85%" height="785" align="left"
+						valign="top">
+						<div style="position: relative; height: 500px;">
+
+							<div>
+								Количество счетов
+								<h:inputText style="position:relative;  " id="numberOfAcc"
+									type="text" class="without_underline20px"
+									title="Номер счета для блокировки" size="10"
+									value="#{sendEmailBean.namberOfAccounts}"></h:inputText>
+							</div>
+							<div>
+								Роль
+								<h:selectOneMenu id="subRoles" value="#{sendEmailBean.role}">
+									<f:selectItem id="item1" itemLabel="Тип пользователя"
+										itemValue="1" />
+									<f:selectItem id="item2" itemLabel="Клиент" itemValue="2" />
+									<f:selectItem id="item3" itemLabel="Консультант" itemValue="3" />
+								</h:selectOneMenu>
+							</div>
+							<h:commandButton value="Сделать выборку"
+								class="without_underline20px" action="#{sendEmailBean.selectUsersList}">
+								<f:ajax execute="numberOfAcc subRoles" render="outListClients" />
+								</h:commandButton>
+
+							<h:dataTable style="align:center;" width="100%"
+								id="outListClients" border="1"
+								value="#{sendEmailBean.listUsers}" var="user1">
+								<f:facet name="caption">Счета</f:facet>
+								<h:column>
+	#{user1.id}						<f:facet name="header">ID пользователя</f:facet>
+								</h:column>
+								<h:column>
+									<f:facet name="header">ФИО</f:facet>    				
+      #{user1.name}
+   </h:column>
+								<h:column>
+									<f:facet name="header">Количество счетев</f:facet>    				
+      #{user1.numberOfAccount}
+   </h:column>
+								<h:column>
+									<f:facet name="header">Тип клиента</f:facet>
+      #{user1.role}
+   </h:column>
+
+							</h:dataTable>
+							Текст сообщения:
+							<h:inputTextarea id="otziv" rows="4"
+								style="resize: none; position:relative; width:99%; left:0%; top:-10%;"
+								value="#{sendEmailBean.message}">
+							</h:inputTextarea>
+
+							<h:commandButton style="position:relative; width:95%"
+								type="button" class="without_underline20px"
+								value="Отправить сообщение" action="#{sendEmailBean.sendEmails}">
+								 <f:ajax execute="" render="" />  
+							</h:commandButton>
+						</div>
+					</td>
+					<td valign="top" class="Rigth_panel">
+						<h3 class="Rigth_panel"></h3>
+						<h3>
+							<a class="Rigth_panel" href="personal_cabinet_of_menedjer.xhtml">Личный
+								кабинет</a>
+						</h3>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+	</h:form>
+</h:body>
+</html>
